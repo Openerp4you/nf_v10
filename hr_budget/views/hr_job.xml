@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+	
+		  <record id="hr_job_custom_inherit" model="ir.ui.view">
+            <field name="name">hr.job</field>
+            <field name="model">hr.job</field>
+            <field name="inherit_id" ref="hr.view_hr_job_form"/>
+            <field name="arch" type="xml">
+            
+             <xpath expr="//field[@name='name']" position="attributes">
+              <attribute name="attrs">attrs="{'readonly':[('parent','=',False)]}"</attribute>
+             </xpath>
+            
+	         <xpath expr="//field[@name='department_id']" position="before">
+	          <field name="job_id" attrs="{'required':[('parent','=',False)],'invisible':[('parent','=',True)]}"/>
+	          <field name="parent" invisible="1"/>
+	         </xpath>
+	         
+	         <xpath expr="//field[@name='department_id']" position="attributes">
+	          <attribute name="attrs">{'required':[('parent','=',False)]}</attribute>
+	         </xpath>
+	         
+	         <xpath expr="//field[@name='no_of_recruitment']" position="attributes">
+	          <attribute name="invisible">1</attribute>
+	         </xpath>
+	         	         	         	         	         	         
+	         <xpath expr="//field[@name='description']" position="after">
+            		
+            		<notebook>
+	            		<page string="Budget History">
+	            			<field name="budget_lines" readonly="1" nolable="1">
+	            				<tree>
+	            					<field name="budget_id"/>
+	            					<field name="date"/>
+	            					<field name="new_res"/>
+	            					<field name="total_cost"/>
+	            				</tree>
+	            			</field>
+	            		</page>
+	            		<page string="Requisition History">
+	            			<field name="requisition_lines" readonly="1" nolable="1">
+	            				<tree>
+	            					<field name="requisition_id"/>
+	            					<field name="date"/>
+	            					<field name="emp_total"/>
+	            					<field name="avail_budget"/>
+	            				</tree>
+	            			</field>
+	            		</page>
+            		</notebook>
+            	</xpath>
+	             
+            </field>
+            </record>
+            
+            
+         <record id="hr_job_survey_inherit1" model="ir.ui.view">
+            <field name="name">hr.job</field>
+            <field name="model">hr.job</field>
+            <field name="inherit_id" ref="hr_recruitment.hr_job_survey"/>
+            <field name="arch" type="xml">
+            
+	         <xpath expr="//field[@name='address_id']" position="after">
+	                 <field name="branch_id" attrs="{'required':[('parent','=',False)],'invisible':[('parent','=',True)]}"/>
+	                 <label for="month" attrs="{'invisible':[('parent','=',True)]}"/>
+                        <div name="month" class="o_row">
+        				  <field name="month" attrs="{'required':[('parent','=',False)],'invisible':[('parent','=',True)]}"/>
+        				  <field name="year" attrs="{'required':[('parent','=',False)],'invisible':[('parent','=',True)]}"/>
+        				</div>
+        			  <field name="expected_no_of_emp" attrs="{'invisible':[('parent','=',True)]}"/>
+        			  <field name="avail_budget" attrs="{'required':[('parent','=',False)],'invisible':[('parent','=',True)]}"/>	
+	         </xpath>
+	         
+	         <xpath expr="//field[@name='address_id']" position="attributes">
+	           <attribute name="attrs">{'invisible':[('parent','=',False)]}</attribute>
+	         </xpath>
+	      
+	       </field>
+         </record>       
+           
+        </data>
+              
+</openerp>

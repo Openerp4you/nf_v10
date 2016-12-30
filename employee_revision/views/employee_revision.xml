@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+	
+	 
+<!--	                                     Form-->
+	   
+	    <record id="wiz_employee_revision" model="ir.ui.view">
+	  	    <field name="name">employee_revision</field>
+			<field name="model">employee.revision</field>
+		    <field name="type">form</field>
+			<field name="arch" type="xml">
+			<form string="Employee Revision" version="9.0">
+				<header>
+				<button name="update_info"  string="Update Information" type="object" class="oe_highlight"/>
+		        </header>
+				<sheet>
+				<group>
+				<group>
+			        <field name="info_type" />
+			        <field name="effective_start_date" />
+			 		<field name="current_status" attrs="{'invisible': [('info_type','!=','status')]}"/>
+			 		
+			 		<field name="current_position" attrs="{'invisible': [('info_type','!=','position')]}" />
+			 		<field name="current_dept" attrs="{'invisible': [('info_type','!=','department')]}"/>
+					
+					<field name="current_branch" attrs="{'invisible': [('info_type','!=','branch')]}"/>
+					<field name="current_division" attrs="{'invisible': [('info_type','!=','division')]}"/>
+					
+				</group>
+				
+				<group>		
+					<field name="emp_name" domain="['|',('active','=',False),('active','=',True)]" />
+			 		<field name="new_status" attrs="{'invisible': [('info_type','!=',('status'))]}" />
+			 		<field name="new_dept" attrs="{'invisible': [('info_type','!=','department')]}"/>
+			 		<field name="new_designation" attrs="{'invisible': [('info_type','!=','position')]}" />
+				 	<field name="new_branch" attrs="{'invisible': [('info_type','!=','branch')]}"/>
+				 	<field name="new_division" attrs="{'invisible': [('info_type','!=','division')]}"/>
+				 </group>
+				 
+				 </group>
+			    
+		        </sheet>
+				</form>    
+				</field>
+		</record>
+		
+		
+				
+<!--		                        action-->
+	  
+	    
+        
+   
+  			<record id="action_employee_revision" model="ir.actions.act_window">
+            <field name="name">Employee Revision</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">employee.revision</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="wiz_employee_revision"/>
+            <field name="target">new</field>
+    	    </record>
+   
+   <menuitem
+        sequence="4"
+        id="menu_wiz_employee_revision"
+        name="Employee Revision"
+        action="action_employee_revision"
+        parent="hr.menu_hr_root"/>
+   
+   
+   
+   
+        	
+        </data>
+        </openerp>

@@ -1,0 +1,658 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+   	<data>
+		
+		<record model="ir.ui.view" id="hr_budget_view_form">
+	        <field name="name">HR Budget Form</field>
+	        <field name="model">hr.budget</field>
+	        <field name="arch" type="xml">
+	        	<form string="HR Budget Form">
+	        		<header>
+	        			<button name="confirm_budget" string="CONFIRM" type="object" class="oe_highlight" states='draft'/>
+	        			<button name="approve_budget" string="APPROVE" type="object" class="oe_highlight" states='confirm'/>
+						<button name="revise_budget" string="SEND FOR REVISION" type="object"/>
+					
+						<!--This will create the statusbar, thanks to the widget. -->
+					    <field name="state" widget="statusbar"/>
+					
+					</header>
+	        		<sheet>
+	        		 <h1>
+                       <field name="name" class="oe_inline" readonly="1"/>
+                     </h1> 
+		        		<group>	
+		        			<group>
+					        	<field name="dept" required="1" attrs="{'readonly': [('state','!=','draft')]}"/>
+					        	<field name="manager" attrs="{'readonly': [('state','!=','draft')]}" domain="[('manager','=',True)]"/>
+					        	<field name="budget_year" required="1" attrs="{'readonly': [('state','!=','draft')]}"/>
+					        </group>
+					        
+					        <group>
+					        	<field name="branch_id" required="1" attrs="{'readonly': [('state','!=','draft')]}"/>
+					        	<field name="send_to" attrs="{'readonly': [('state','!=','draft')]}"/>
+					        	<field name="review_by" attrs="{'readonly': [('state','!=','draft')]}"/>
+					            <field name="date" attrs="{'readonly': [('state','!=','draft')]}"/>
+					            <field name="user_id" invisible="1"/>            
+					        </group>
+					    </group>
+				        <notebook>
+				        	<page string="Budget Lines">
+				        		<field name="budget_lines" attrs="{'readonly': [('state','!=','draft')]}" nolable="1" context="{'default_user_id':user_id,'default_manager_id':manager,'budget_year':budget_year}">
+						        	<tree>
+							        	<field name="job_id"/> 
+							        	<field name="emp_total"/>
+							        	<field name="new_res" invisible="1"/>
+							        	<field name="avg_cost"/>
+							        	<field name="level"/>
+							        	<field name="total_cost"/>
+							        	<field name="manager_id" invisible="1"/>
+							        	<field name="user_id" invisible="1"/>
+						        	</tree>
+						        	
+						        	<form>
+						        	<group col="4" colspan="6">
+							        	<field name="job_id"/> 
+							        	<field name="emp_total"/>
+							        	<field name="new_res" invisible="1"/>
+							        	<field name="avg_cost"/>
+							        	<field name="level"/>
+							        	<field name="total_cost"/>
+							        	<field name="manager_id" invisible="1"/>
+							        	<field name="user_id" invisible="1"/>
+							        </group> 	
+							        <notebook>
+				        	            <page string="Monthly Budget">	
+							        	   <field name="monthly_budget_line_ids" nolabel="1" colspan="4">
+						        	        <tree editable="top">
+						        	         <field name="date" required="1"/>
+						        	         <field name="headcount"/>
+						        	         <field name="budget_line_id" invisible="1"/>
+						        	        </tree>
+						        	       </field>
+						        	     </page>
+						        	 </notebook>        
+						        	</form>
+					        	</field>
+				        	</page>
+				        	
+				        </notebook>
+					    <group class="oe_subtotal_footer oe_right"> 
+		        			<field name="sub_total" class="oe_subtotal_footer_separator"/>
+		        		</group>
+		        		<group>
+		        			<field name="comments" placeholder="Additional notes..."/>
+		        		</group>
+	        		</sheet>
+	        		<div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+	        	</form>
+	        </field>
+	    </record>
+	
+				  
+	    <record id="hr_budget_action" model="ir.actions.act_window">
+	        <field name="name">Budget Forms</field>
+	        <field name="res_model">hr.budget</field>
+	        <field name="view_type">form</field>
+	        <field name="view_mode">tree,form</field>
+	        <field name="help" type="html">
+	          <p class="oe_view_nocontent_create">
+	            Click to setup a new HR Budget Data. 
+	          </p>
+	        </field>
+	    </record>
+	    
+    <menuitem
+        sequence="0"
+        id="menu_hr_budget_form"
+        name="Budget"
+        web_icon="hr_budget,static/description/icon.png"
+        action="hr_budget_action"/>
+       
+   <menuitem
+        sequence="0"
+        id="menu_hr_budget_form_child"
+        name="Budget"
+        parent="menu_hr_budget_form"
+        action="hr_budget_action"/>
+        
+        
+        
+        <!-- HR Budget Close -->
+        
+        
+	  	    
+	<record model="ir.ui.view" id="hr_requisition_view_form">
+	        <field name="name">HR Requisition Form</field>
+	        <field name="model">hr.requisition</field>
+	        <field name="arch" type="xml">
+	        	<form string=" Requisition Form">
+	        		<header>
+	        			<button name="confirm_requisition" string="CONFIRM" type="object" states='draft'/>
+	        			<button name="approve_requisition" string="APPROVE" type="object" states='confirm'/>
+	        			<button name="revise_requisition" string="SEND FOR REVISION" type="object"/>
+	        			<field name="state" widget="statusbar"/>
+	        		</header>
+	        		<sheet>
+	        		<h1>
+                      <field name="name" class="oe_inline" readonly="1"/>
+                    </h1> 
+	        			<group>
+	        				<group>
+			        			<field name="department" required="1" attrs="{'readonly': [('state','!=','draft')]}"/>
+						        <field name="branch_id" required="1" attrs="{'readonly': [('state','!=','draft')]}" />
+						        <field name="requested_to" attrs="{'readonly': [('state','!=','draft')]}"/>
+			        			<field name="requested_by" attrs="{'readonly': [('state','!=','draft')]}"/>
+			        			<field name="allocated_to" attrs="{'readonly': [('state','!=','draft')]}" />
+			        			<field name="user_id" invisible="1" attrs="{'readonly': [('state','!=','draft')]}"/>
+			        			<field name="manager" attrs="{'readonly': [('state','!=','draft')]}"/>
+			        		</group>  
+			        			
+			        			<group>
+			        				<field name="date" attrs="{'readonly': [('state','!=','draft')]}"/>
+			        				<label for="month"/>
+		                            <div name="month" class="o_row">
+			        				  <field name="month" required="1" attrs="{'readonly': [('state','!=','draft')]}"/>
+			        				  <field name="year" required="1" attrs="{'readonly': [('state','!=','draft')]}"/>
+			        				</div>
+			        				<field name="replacement" attrs="{'readonly': [('state','!=','draft')]}"/>
+			        				<field name="replace_of" attrs="{'invisible': [('replacement','!=','yes')]}"/>
+			        			</group>
+			        		  </group>
+			        			<notebook>
+					        		<page string="Requisition Lines">
+					        			<field name="requisition_line" attrs="{'readonly': [('state','!=','draft')]}" nolable="1" context="{'default_user_id':user_id,'default_manager_id':manager,'default_requested_by':requested_by}">
+						        			<tree editable="top">
+							        			<field name="job_id"/>
+							        			<field name="job_desc"/>
+							        			<field name="emp_total"/>
+							        			<field name="salary_range"/>
+							        			<field name="existing"/>
+							        			<field name="avail_budget"/>
+							        			<field name="user_id" invisible="1"/>
+							        			<field name="requisition_id" invisible="1"/>
+							        			<field name="manager_id" invisible="1"/>
+							        			<field name="requested_by" invisible="1"/>
+						        			</tree>
+					        			</field>
+					        		</page>
+					        	</notebook>
+			        			
+			        			
+			        			<group class="oe_subtotal_footer oe_right"> 
+				        			<field name="total_avail_budget" class="oe_subtotal_footer_separator"/>
+				        		</group>
+			        			<group>
+			        			<field name="comments" placeholder="Additional notes..."/>
+			        			</group>
+			        			
+			        	
+	        		</sheet>
+	        		<div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+	        	</form>
+	        </field>
+	    </record>
+	    
+	    <record id="hr_requisition_action" model="ir.actions.act_window">
+	        <field name="name">Requisition Forms</field>
+	        <field name="res_model">hr.requisition</field>
+	        <field name="view_type">form</field>
+	        <field name="view_mode">tree,form</field>
+	        <field name="help" type="html">
+	          <p class="oe_view_nocontent_create">
+	            Click to setup a new HR Requisition Data. 
+	          </p>
+	        </field>
+	    </record>
+	    
+   <menuitem
+        sequence="2"
+        id="menu_hr_requisition_form_child"
+        name="Requisition"
+        parent="menu_hr_budget_form"
+        action="hr_requisition_action"/>
+        
+	    
+	    	    <!--  Requisition Data Close -->	
+		
+	    <record model="ir.ui.view" id="upload_docs_view_form">
+	        <field name="name">Upload Docs Form</field>
+	        <field name="model">upload.docs</field>
+	        <field name="arch" type="xml">
+	        	<form string=" Upload Docs Form">
+	        		<header>
+	        		<button name="send_inbox_message" string="Expiry Alert" type="object"/>
+	        		</header>
+	        		<sheet>
+	        			<group>
+	        				<group>
+	        					<field name="name"/>
+	        				</group>
+	        				<group>
+	        					<field name="intimate_to"/>
+	        				</group>
+	        			</group>
+	        			<notebook>
+	        				<page string="Documents Details">	
+		        				<field name="docs_lines" nolable="1" context="{'default_emp_name':name}">
+			        				<tree editable="top" colors="red:alert_check==True;grey:alert_check ==False ">
+				        				<field name="emp_name"/>
+				        				<field name="code"/>
+				        				<field name="description"/>
+				        				<field name="doc_no"/>
+				        				<field name="issue_date"/>
+			        					<field name="expiry_date"/>
+				        				<field name="issue_phase"/>
+				        				<field name="status"/>
+				        				<field name="alert_before" invisible="0"/>
+				        				<field name="alert_check" invisible="0"/>
+				        				<field name="alert_date" invisible="0"/>
+				        				<field name="attach"/>
+			        				</tree>
+		        				</field>
+			        		</page>
+			        	</notebook>
+	        		</sheet>
+	        	</form>
+	        </field>
+	    </record>
+	    
+	    <record id="upload_docs_action" model="ir.actions.act_window">
+	        <field name="name">Employee Document</field>
+	        <field name="res_model">upload.docs</field>
+	        <field name="view_type">form</field>
+	        <field name="view_mode">tree,form</field>
+	        <field name="help" type="html">
+	          <p class="oe_view_nocontent_create">
+	            Click to setup a new Upload Documents Data. 
+	          </p>
+	        </field>
+	    </record>
+	    
+   <menuitem
+        sequence="4"
+        id="menu_upload_docs_form_child"
+        name="Documents"
+        parent="hr.menu_hr_root"
+       />
+        
+   <menuitem
+        sequence="1"
+        id="menu_upload_docs_form"
+        name="Documents Upload"
+        parent="menu_upload_docs_form_child"
+        action="upload_docs_action"/>
+        
+        
+    <record model="ir.ui.view" id="document_expire_tree_view">
+	        <field name="name">Documents Expire</field>
+	        <field name="model">docs.lines</field>
+	        <field name="arch" type="xml">
+	        	<tree string="Documents Expire" colors="red:alert_check==True;grey:alert_check ==False ">
+	        			<field name="emp_name"/>
+        				<field name="code"/>
+        				<field name="description"/>
+        				<field name="doc_no"/>
+        				<field name="issue_date"/>
+    					<field name="expiry_date"/>
+        				<field name="issue_phase" invisible="1"/>
+        				<field name="status" invisible="1"/>
+        				<field name="alert_before" invisible="1"/>
+        				<field name="alert_check" select="1" invisible="1"/>
+        				<field name="alert_date"/>
+        				<field name="attach" invisible="1"/>
+	        	</tree>
+	        </field>
+	    </record>
+	    
+	    <record id="document_expire_action" model="ir.actions.act_window">
+	        <field name="name">Employee Documents</field>
+	        <field name="res_model">docs.lines</field>
+	        <field name="view_type">form</field>
+	        <field name="view_mode">tree,form</field>
+	        <field name="domain">[('alert_check','=',True)]</field>
+	        <field name="view_id" ref="document_expire_tree_view"/>
+	        <field name="help" type="html">
+	          <p class="oe_view_nocontent_create">
+	            Click to setup a new Upload Documents Data. 
+	          </p>
+	        </field>
+	    </record>
+	    
+   <menuitem
+        sequence="2"
+        id="menu_document_expire"
+        name="Documents Expire"
+        parent="menu_upload_docs_form_child"
+        action="document_expire_action"/>
+        
+	    
+	    	    <!--  Upload Documents Data Close -->	
+		
+	    <record model="ir.ui.view" id="resign_view_form">
+	        <field name="name">Resign Form</field>
+	        <field name="model">resign</field>
+	        <field name="arch" type="xml">
+	        	<form string=" Resign Form">
+	        		<header>
+	        		<button name="confirm_resign" string="CONFIRM" type="object" />
+	        		</header>
+	        		<sheet>
+	        			<group>
+	        					<group>
+	        					<field name="name"/>
+	        					
+	        					<field name="work_phone"/>
+	        					<field name="address_id"/>
+	        					<field name="confirm_date"/>
+	        					</group>
+	        					
+	        					<group>
+	        					<field name="designation"/>
+	        					<field name="work_mobile"/>
+	        					<field name="reason_for_leaving"/>
+	        					
+	        					</group>
+	        					
+	        					<field name="notes"/>
+			        	</group>
+	        		</sheet>
+	        	</form>
+	        </field>
+	    </record>
+	    
+	    <record id="resign_action" model="ir.actions.act_window">
+	        <field name="name">Resignation Form</field>
+	        <field name="res_model">resign</field>
+	        <field name="view_type">form</field>
+	        <field name="view_mode">tree,form</field>
+	        <field name="help" type="html">
+	          <p class="oe_view_nocontent_create">
+	            Click to setup a new Resignation Data. 
+	          </p>
+	        </field>
+	    </record>
+	    
+	<menuitem
+        sequence="4"
+        id="menu_resign_form"
+        name="Dismissal"
+        parent="hr.menu_hr_root"
+        action="resign_action"/>
+        
+        <menuitem
+        sequence="4"
+        id="menu_resign_form_child"
+        name="REQUEST FOR RESIGNATION"
+        parent="menu_resign_form"
+        action="resign_action"/>
+        
+	    
+	  
+	    	    <!--  Resignation Data Close -->	
+		
+	    <record model="ir.ui.view" id="termination_view_form">
+	        <field name="name">Termination Form</field>
+	        <field name="model">termination</field>
+	        <field name="arch" type="xml">
+	        	<form string=" Termination Form">
+	        		<header>
+	        		<button name="confirm_terminate" string="CONFIRM Terminate" type="object" />
+	        		</header>
+	        		<sheet>
+	        			<group>
+	        					<group>
+	        					<field name="name" />
+	        					<field name="reason"/>
+	        					</group>
+	        					
+	        					<group>
+	        					<field name="designation"/>
+	        					
+	        					</group>
+	        					
+	        					<field name="hr_remark"/>
+	        					<field name="ceo_remark"/>
+			        	</group>
+	        		</sheet>
+	        	</form>
+	        </field>
+	    </record>
+	    
+	    <record id="termination_action" model="ir.actions.act_window">
+	        <field name="name">Termination Forms</field>
+	        <field name="res_model">termination</field>
+	        <field name="view_type">form</field>
+	        <field name="view_mode">tree,form</field>
+	        <field name="help" type="html">
+	          <p class="oe_view_nocontent_create">
+	            Click to setup a new Termination Data. 
+	          </p>
+	        </field>
+	    </record>
+	    
+	<menuitem
+        sequence="5"
+        id="menu_termination_form_child"
+        name="REQUEST FOR TERMINATION"
+        parent="menu_resign_form"
+        action="termination_action"/>
+        
+	    
+	  
+	    	    <!--  Termination Data Close -->	
+
+		<record model="ir.ui.view" id="travel_details_view_form">
+	        <field name="name">Travel Details Form</field>
+	        <field name="model">travel.details</field>
+	        <field name="arch" type="xml">
+	        	<form string=" Travel Details Form">
+	        		<sheet>
+	        			<group>
+	        					<separator string="Personal Information" />
+	        					<br/>
+	        					<group>
+	        					<field name="name"/>
+	        					<field name="emp_name"/>
+	        					<field name="designation"/>
+	        					<field name="emp_id"/>
+	        					<field name="dob"/>
+	        					</group>
+	        					
+	        					<group>
+	        					<field name="contact_no"/>
+	        					<field name="off_email"/>
+	        					</group>
+	        					
+	        					<separator string="Travel Details"/>
+	        					<br/>
+	        					<group>
+	        					<field name="travel_req_date"/>
+	        					<field name="id_proof"/>
+	        					<field name="travel_from"/>
+	        					<field name="travel_to"/>
+	        					<field name="return_to"/>
+	        					<field name="mode"/>
+	        					<field name="preffered_time" widget="float_time"/>
+	        					<field name="preffered_return_time" widget="float_time"/>
+	        					</group>
+	        					
+	        					<group>
+	        					<field name="date_travel"/>
+	        					<field name="reason_for_travel"/>
+	        					</group>
+	        					
+	        							
+			        	</group>
+	        					
+	        				<group colspan="4" col="4">
+	        					
+	        					<group colspan="2">
+	        					<separator string="Domestic / International Travel"/>
+	        					<newline/>
+	        					<field name="nf_dept"/>
+	        					<field name="nf_state"/>
+	        					<field name="financial_approval"/>
+	        					</group>
+	        					
+	        					<group >
+	        					<separator colspan="2" string="Accommodation Required"/>
+	        					<newline/>
+	        					<field name="accommodation_req"/>
+	        					</group>
+	        					
+	        				</group>
+	        					
+	        					
+	        			
+	        		</sheet>
+	        	</form>
+	        </field>
+	    </record>
+	    
+	    <record id="travel_details_action" model="ir.actions.act_window">
+	        <field name="name">Travel Details Forms</field>
+	        <field name="res_model">travel.details</field>
+	        <field name="view_type">form</field>
+	        <field name="view_mode">tree,form</field>
+	        <field name="help" type="html">
+	          <p class="oe_view_nocontent_create">
+	            Click to setup a new Travel Details Data. 
+	          </p>
+	        </field>
+	    </record>
+	    
+	<menuitem
+        sequence="6"
+        id="menu_travel_details_form_child"
+        name="Travel Details"
+        parent="menu_hr_budget_form"
+        action="travel_details_action"/>
+        
+	    
+	  
+	    	    <!--  Travel Data Close -->
+	    
+	    <record model="ir.ui.view" id="medical_insurance_view_form">
+	        <field name="name">Medical Insurance Form</field>
+	        <field name="model">medical.insurance</field>
+	        <field name="arch" type="xml">
+	        	<form string=" Medical Insurance Form">
+	        		<sheet>
+	        			<group>
+	        				
+	        				<group>
+	        				<field name="ref_no"/>
+	        				<field name="name"/>
+	        				<field name="date"/>
+	        				<field name="plan"/>
+	        				<field name="sum_assured"/>
+	        				</group>
+	        				
+	        				<field name="family_detail_lines">
+	        				<tree editable="top">
+	        				<field name="name"/>
+	        				<field name="dob"/>
+	        				<field name="gender"/>
+	        				<field name="relationship"/>
+	        				</tree>
+	        				</field>	
+	        					
+	        			</group>
+	        			
+	        		</sheet>
+	        	</form>
+	        </field>
+	    </record>
+	    
+	    <record id="medical_insurance_action" model="ir.actions.act_window">
+	        <field name="name">Medical Insurance Forms</field>
+	        <field name="res_model">medical.insurance</field>
+	        <field name="view_type">form</field>
+	        <field name="view_mode">tree,form</field>
+	        <field name="help" type="html">
+	          <p class="oe_view_nocontent_create">
+	            Click to setup a new Medical Insurance Data. 
+	          </p>
+	        </field>
+	    </record>
+	    
+	<menuitem
+        sequence="7"
+        id="menu_medical_insurance_form_child"
+        name="Medical Insurance"
+        parent="menu_hr_budget_form"
+        action="medical_insurance_action"/>
+        
+	  
+	    	    <!--  Medical Insurance Data Close -->
+	    
+	   <record model="ir.ui.view" id="purchase_request_view_form">
+	        <field name="name">Purchase Request Form</field>
+	        <field name="model">purchase.request</field>
+	        <field name="arch" type="xml">
+	        	<form string=" Purchase Request Form">
+	        		<sheet>
+	        		<group>
+	        				<group>
+	        				<field name="ref_no"/>
+	        				<field name="name"/>
+	        				<field name="des_of_purchase"/>
+	        				<field name="expenditure"/>
+	        				</group>
+	        				
+	        				<group>
+	        				<field name="outline_purchase"/>
+	        				<field name="references"/>
+	        				</group>
+	        				
+	        			
+	        				<group>	        				
+	        				<field name="attachment">
+	        				<tree editable="top">
+	        				<field name="name"/>
+	        				<field name="attach"/>
+	        				</tree>
+	        				</field>
+	        				</group>
+	        					
+	        		</group>
+	        			
+	        		</sheet>
+	        	</form>
+	        </field>
+	    </record>
+	    
+	    <record id="purchase_request_action" model="ir.actions.act_window">
+	        <field name="name">Purchase Request Forms</field>
+	        <field name="res_model">purchase.request</field>
+	        <field name="view_type">form</field>
+	        <field name="view_mode">tree,form</field>
+	        <field name="help" type="html">
+	          <p class="oe_view_nocontent_create">
+	            Click to setup a new Purchase Request Data. 
+	          </p>
+	        </field>
+	    </record>
+	    
+	<menuitem
+        sequence="7"
+        id="menu_purchase_request_form_child"
+        name="Purchase Request"
+        parent="menu_hr_budget_form"
+        action="purchase_request_action"/>
+        
+	    
+	  
+	    	    <!--  Purchase Request Data Close -->
+	    
+	    
+</data>
+</openerp>
+        
+        

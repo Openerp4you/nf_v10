@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+	
+	 
+<!--	                                     Form-->
+	   
+	    <record id="wiz_interview_form" model="ir.ui.view">
+	  	    <field name="name">Interview</field>
+			<field name="model">wiz.interview.form</field>
+		    <field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Interview" version="9.0">
+					
+					<sheet>
+						<group>
+							<group>
+						        <field name="user_id" />
+						        
+							</group>
+							<group>
+						        <field name="survey_id" />
+						        <field name="stage_id" invisible="0"/>
+							</group>
+						 </group>
+						 <footer>
+	                        <button string="assign" name="assign_interviewer" type="object" class="btn-primary"/>
+	                        <button string="Cancel" class="btn-default" special="cancel"/>
+	                    	
+	                    </footer>
+			        </sheet>
+				</form>    
+			</field>
+		</record>
+		
+		
+				
+<!--		                        action-->
+	  
+	    
+        
+   
+  			<record id="action_interview_form" model="ir.actions.act_window">
+	            <field name="name">Assign Interviewer</field>
+	            <field name="type">ir.actions.act_window</field>
+	            <field name="res_model">wiz.interview.form</field>
+	            <field name="view_type">form</field>
+	            <field name="view_mode">form</field>
+	            <field name="view_id" ref="wiz_interview_form"/>
+	            <field name="target">new</field>
+    	    </record>
+   <!-- 
+   <menuitem
+        sequence="4"
+        id="menu_wiz_interview_form"
+        name="Assign Interviewer"
+        action="action_interview_form"
+        parent="hr.menu_hr_root"/>
+    -->
+   
+   
+   <!--	                                     Form-->
+	   
+	    <record id="wiz_asign_task_form" model="ir.ui.view">
+	  	    <field name="name">Assign Task</field>
+			<field name="model">task.assign</field>
+		    <field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Assign Task" version="9.0">
+					<sheet>
+							<group>
+						        <field name="applicant_id" invisible="1"/>
+							</group>
+							<notebook>
+								<page string="Tasks" name="Tasks">
+						        	<field name="task_lines" nolable="1">
+						        		<tree editable="top">
+							        		<field name="employee_id"/>
+							        		<field name="name"/>
+							        		<field name="description"/>
+						        		</tree>
+						        	</field>
+						        		
+						        </page>
+							</notebook>
+						
+						 <footer>
+	                        <button string="Assign" name="assign_task" type="object" class="btn-primary"/>
+	                        <button string="Cancel" class="btn-default" special="cancel"/>
+	                    	
+	                    </footer>
+			        </sheet>
+				</form>    
+			</field>
+		</record>
+		
+		
+				
+<!--		                        action-->
+	  
+	    
+        
+   
+  			<record id="action_task_assign_form" model="ir.actions.act_window">
+	            <field name="name">Assign Task</field>
+	            <field name="type">ir.actions.act_window</field>
+	            <field name="res_model">task.assign</field>
+	            <field name="view_type">form</field>
+	            <field name="view_mode">form</field>
+	            <field name="view_id" ref="wiz_asign_task_form"/>
+	            <field name="target">new</field>
+    	    </record>
+   
+   
+        	
+        </data>
+        </openerp>

@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+   	<data>
+   		
+   		<record model="ir.ui.view" id="hr_applicant_view_form">
+	        <field name="name">Applicant Form</field>
+	        <field name="model">hr.applicant</field>
+	        <field name="inherit_id" ref="hr_recruitment.crm_case_form_view_job"/>
+	        <field name="arch" type="xml">
+	        	<xpath expr="//button[@name='create_employee_from_applicant']" position="before">
+	        		<button string="Assign Interviewer" groups="base.group_ta" name="%(action_interview_form)d" type="action" class="btn-primary"/>
+	        		<button string="Assign Task" groups="base.group_hr" name="%(action_task_assign_form)d" type="action" class="btn-primary"/>
+
+	        	</xpath>
+	        	
+	        	<xpath expr="//button[@name='create_employee_from_applicant']" position="attributes">
+					<attribute name="groups" >base.group_hr</attribute>
+	        	</xpath>
+	        	
+	        	
+	        	<xpath expr="//button[@name='%(action_interview_form)d']" position="after">
+	        		<button string="Email To T.A. " groups="base.group_interviewer" type="object" name="send_email_To_TA" class="btn-primary" />
+	        	</xpath>
+	        	
+	        	<xpath expr="//button[@name='%(action_interview_form)d']" position="after">
+	        		<button string="Email To H.R. " groups="base.group_ta" type="object" name="send_email_To_HR" class="btn-primary"/>
+	        	</xpath>
+	        	
+	        	
+	        	<xpath expr="//field[@name='user_id']" position="after">
+	        		<field name="interviewer_id" string="Responsible" />
+	        		<field name="allocat_hr"/>
+	        		<field name="branch_id" domain="[('id','child_of',[1])]" invisible="1"/>
+	        	</xpath>
+	        	
+	        	<xpath expr="//field[@name='type_id']" position="after">
+	        		<field name="pan_no"  />
+	        		<field name="aadhar_no"/>
+	        		
+	        	</xpath>
+	        	
+	        <xpath expr="//field[@name='user_id']" position="attributes">
+	        	<attribute name="invisible">1</attribute>
+	        </xpath>
+	        <xpath expr="//field[@name='description']" position="after">
+	        		<group>
+		        		<field name="survey_id" invisible="1"/>
+		        		<field name="survey_id1" invisible="1"/>
+		        		<field name="response_id1" invisible="1"/>
+	        		</group>
+	        		<notebook>
+	        			<page string="Interview History" name="Interview History">
+			        		<field name="interviewer_hist_line"  context="{'sequence':interviewer_hist_line}" invisible="0">
+			        			<tree>
+				        			<field name="sequence"  />
+				        			<field name="name" invisible="1"/>
+				        			<field name="survey_id"/>
+				        			<field name="response_id"/>
+				        			<field name="user_id"/>
+				        			<field name="title_action"/>
+				        			<field name="date_action"/>
+				        			<button name="action_start_survey" string="To View Form" type="object" class="btn-primary" icon="fa-th-large"/>
+			        			</tree>
+			        		</field>
+		        		</page>
+	        		</notebook>
+	        	</xpath>
+	        	
+	        </field>
+	    </record>
+	    
+		<record model="ir.actions.act_window" id="hr_recruitment.crm_case_categ0_act_job">
+	        <field name="name">Applications</field>
+	        <field name="res_model">hr.applicant</field>
+	        <field name="view_mode">kanban,tree,form,pivot,graph,calendar</field>
+	        <field name="view_id" eval="False"/>
+	        <field name="search_view_id" ref="hr_recruitment.view_crm_case_jobs_filter"/>
+	        <field name="domain">['|','|','|',('interviewer_id','=',uid),('user_id','=',uid),('allocat_hr','=',uid),('create_uid','=',uid)]</field>
+	        <field name="context">{}</field>
+	        <field name="help" type="html">
+	          <p>
+	            Odoo helps you track applicants in the recruitment
+	            process and follow up all operations: meetings, interviews, etc.
+	          </p><p>
+	            Applicants and their attached CV are created automatically when an email is sent.
+	            If you install the document management modules, all resumes are indexed automatically, 
+	            so that you can easily search through their content.
+	          </p>
+	        </field>
+	    </record>
+	    
+	    <record model="ir.actions.act_window" id="hr_recruitment.action_hr_job_applications">
+        <field name="name">Applications</field>
+        <field name="res_model">hr.applicant</field>
+        <field name="view_mode">kanban,tree,form,graph,calendar</field>
+        <field name="domain">['|','|','|',('interviewer_id','=',uid),('user_id','=',uid),('allocat_hr','=',uid),('create_uid','=',uid)]</field>
+        <field name="context">{'search_default_job_id': [active_id], 'default_job_id': active_id}</field>
+        <field name="help" type="html">
+              <p>
+                Odoo helps you track applicants in the recruitment
+                process and follow up all operations: meetings, interviews, etc.
+              </p><p>
+                Applicants and their attached CV are created automatically when an email is sent.
+                If you install the document management modules, all resumes are indexed automatically,
+                so that you can easily search through their content.
+              </p>
+         </field>
+    </record>
+    
+    <record model="ir.actions.act_window" id="hr_recruitment.action_hr_job">
+            <field name="name">Requisition</field>
+            <field name="res_model">hr.job</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                  Click here to create a new job position.
+              </p><p>
+                  Once a job position is created, you can track related applications
+                  and manage the recruitment process.
+              </p>
+            </field>
+        </record>
+        
+        <!-- hr related job position menu action Inherited-->
+         <record model="ir.actions.act_window" id="hr_recruitment.action_hr_job_config">
+            <field name="name">Job Positions</field>
+            <field name="res_model">hr.job</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_in_recruitment': 1,'default_parent':True}</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                  Click here to create a new job position.
+              </p><p>
+                  Once a job position is created, you can track the applicants
+                  and manage the recruitment process related to the job
+                  position.
+              </p>
+            </field>
+        </record>
+    
+	    <record model="ir.ui.view" id="hr_task_subject_form">
+	        <field name="name">Task Subject</field>
+	        <field name="model">task.subject</field>
+	        <field name="arch" type="xml">
+	        	<form>
+	        		<sheet>
+	        			<group>
+	        			<group>
+	        				<field name="name"/>
+	        				<field name="alert_days"/>
+	        			</group>
+	        			<group>
+	        				<field name="description"/>
+	        			</group>
+	        			</group>
+	        		</sheet>
+	        	</form>
+	        </field>
+	    </record>
+	    
+	    <record id="action_task_subject" model="ir.actions.act_window">
+            <field name="name">Task</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">task.subject</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="hr_task_subject_form"/>
+    	</record>
+   
+	   <menuitem
+	        sequence="11"
+	        id="menu_task_subject"
+	        name="Task Details"
+	        action="action_task_subject"
+	        parent="hr_recruitment.menu_hr_recruitment_configuration"/>
+	   		
+   	</data>
+</openerp>
+   	

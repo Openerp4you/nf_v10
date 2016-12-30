@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+		<!--
+		 <record id="hr_contract_custom_inherit" model="ir.ui.view">
+            <field name="name">hr.contract</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+            <field name="arch" type="xml">
+            
+             <xpath expr="//field[@name='wage']" position="before">
+                 <field name="old_basic" />
+                 <field name="grade_pay" />
+                 <field name="last_wage" />
+                 <field name="new_basic" />
+              </xpath>
+              
+	         <xpath expr="//page[@name='information']/group[1]" position="after">
+	        
+	         <group colspan="4" col="4" >
+	         
+	         
+             <group colspan="2" name="Allowance">
+             <separator string="Allowance"/>
+             <newline/>
+             <field name="driver_salary"/> 
+             <field name="house_rent_all"/> 
+             <field name="supplementary_allowance"/> 
+             </group>
+            
+             <group>
+             <separator colspan="2" string="Deduction"/>
+             <newline/>
+             <field name="tds"/> 
+             <field name="voluntary_provident_fund"/> 
+             <field name="medical_insurance"/> 
+             </group>
+             
+             </group>
+	         </xpath>
+	         
+	         
+            		
+             <notebook>
+	         <page string='Extra Information'>
+	         <group>
+	         
+	         <group>
+	         <field name="deputed_from_same_station"/>
+	         <field name="deputation_allowance"/>
+	         <field name="conveyance_allowance"/>
+	         <field name="hra"/>
+	         <field name="medical_all"/>
+	         <field name="furnishing_all"/>
+	         <field name="pf_stop"/>
+	         </group>
+	         
+	         <group>
+	         <field name="spouse_railway"/>
+	         <field name="previous_railway_empl"/>
+	         <field name="washing_allowance"/>
+	         <field name="holiday_worked_Day"/>
+	         <field name="night_duty_hr"/>
+	         <field name="monthly_rent"/>
+	         <field name="pf_amt"/>
+	         </group>
+	         
+	         </group>
+	         </page>
+	         </notebook>
+            		
+	             
+            </field>
+            </record>
+            -->
+           
+        <record id="hr_employee_custom_inherit" model="ir.ui.view">
+            <field name="name">hr.employee</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+            
+             <xpath expr="//field[@name='work_phone']" position="after">
+                <!-- <field name="work_email" invisible="True"/>-->
+                 <field name="empl_unique_id" invisible="1"/>
+                 <field name="virtual_mob_no" invisible="1" />
+                 <field name="pf_id" invisible="1"/>
+                 <field name="uan" invisible="1" />
+                 <field name="empl_type" invisible="1"/>
+                 <field name="emp_id" invisible="1"/>
+                 <field name="join_date" invisible="1"/>
+                 <field name="visibility"/>
+             </xpath>
+                 
+             <xpath expr="//field[@name='department_id']" position="before">
+                 <field name="display_name" invisible="1"/>
+                 <field name="state" invisible="1"/>
+                 <field name="sales_chanel" invisible="1"/>
+                 <field name="nf_dept" invisible="1"/>
+                 <field name="sub_dept" invisible="1"/>
+                 <field name="intrnal_desig" invisible="1"/>
+                 <field name="high_edu_qual" invisible="1"/>
+                 <field name="hr_name" invisible="1"/>
+                 <field name="reporting_head" invisible="1"/>
+                 <field name="grade" invisible="1"/>
+                 <field name="level" invisible="1"/>
+            </xpath>
+            
+            <xpath expr="//field[@name='bank_account_id']" position="after">
+	            <field name="aadhar_no"/>
+	            <field name="emp_father"/>
+	            <field name="data_form"/>
+	            <field name="emp_size"/>
+            </xpath>
+            
+            <xpath expr="//field[@name='address_home_id']" position="after">
+	            <field name="pan"/>
+	            <field name="pf_id"/>
+	            <field name="join_date"/>
+	            <field name="level"/>
+	            <field name="grade"/>
+	            <field name="ifsc_Code"/>
+	            <field name="currnt_addr" invisible="1"/>
+	            <field name="alternate_contact"/>
+	            <field name="permanent_addr"/>
+	            <field name="personal_email"/>
+            </xpath>
+            
+            <notebook>
+	         <page string='Joining Process'>
+	         <group>
+	         
+	         <group>
+	         <separator string="Offer/NDA Information"/>
+	         <newline/>
+	         <field name="offer_letter"/>
+	         <field name="nda"/>
+	         </group>
+	         
+	         <group>
+	         <separator string="Address Proof"/>
+	         <newline/>
+	         <field name="current_addr_proof"/>
+	         <field name="permanent_addr_proof"/>
+	         </group>
+	         
+	         <group>
+	         <separator string="ID Proof"/>
+	         <newline/>
+	         <field name="id_proof"/>
+	         </group>
+	         
+	         <group>
+	         <separator string="Educational Certificates"/>
+	         <newline/>
+	         <field name="certif_12"/>
+	         <field name="ug_certifcate"/>
+	         </group>
+	         
+	         <group>
+	         <separator string="Previous Company Payslip/Relieving Letter"/>
+	         <newline/>
+	         <field name="previous_pay_slip"/>
+	         <field name="prev_reliving_lttr"/>
+	         </group>
+	         
+	         </group>
+	         </page>
+	         </notebook>
+            
+            <notebook>
+	         <page string='Exit Process'>
+	         <group>
+	         <group>
+	         <separator string="Releaving Information"/>
+	         <newline/>
+	         <field name="reliving_leter"/>
+	         <field name="othr_docs"/>
+	         <field name="last_working_date"/>
+	         <field name="empl_status"/>
+	         <field name="reason_for_leaving"/>
+	         </group>
+	         
+	         <group>
+	         <field name="empl_attrtion"/>
+	         </group>
+	         
+	         </group>
+	         </page>
+	         </notebook>
+	         
+	            
+	         
+	         
+	         
+	         </field>
+             </record>   
+        </data>
+              
+</openerp>

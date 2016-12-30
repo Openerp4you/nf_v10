@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_interviewer_hist_line,access_interviewer_hist_line,model_interviewer_hist_line,,1,1,1,1
+access_wiz_interview_form,access_wiz_interview_form,model_wiz_interview_form,,1,1,1,1

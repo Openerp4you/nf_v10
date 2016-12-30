@@ -1,0 +1,208 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+       <!-- saving details -->
+       
+           <record id="view_employee_saving" model="ir.ui.view">
+            <field name="name">employee.saving.form</field>
+            <field name="model">employee.saving</field>
+            <field name="arch" type="xml">
+            <form>
+             <sheet>
+               <group>
+                 <group>
+                  <field name="employee_id" required='1' />
+                  <field name="company_id"/>
+                 </group>
+                 <group>
+                  <field name="proposed_amount"/>
+                  <field name="bill_amount"/>
+                   <field name="hra_receipt_amount"/>
+                    <field name="other_income_amount"/>
+                 </group>	
+                </group>
+                <notebook>
+                  <page string="Saving Lines">
+                    <field name="saving_line_ids">
+                        <tree string="Tax Saving Lines" editable="bottom">
+                        <field name="salary_rule_id" required='1'/>
+			
+                        <field name="type" required='1'/>
+			<field name="prop_type"/>
+                        <field name="saving_no"/>
+
+          	            <field name="amount" required='1'/> 
+          	            </tree>
+                  	  </field>   
+                  </page>
+                  <page string="Medical Bill">
+                    <field name="medical_line_ids">
+                        <tree string="Bill" editable="bottom">
+                        <field name="reference"/>
+                        <field name="date"/>
+                        <field name="type" required='1'/>
+                        <!-- <field name="fin_year_id" required='1'/> -->
+          	            <field name="amount" required='1'/>
+          	            </tree>
+                  	  </field>   
+                  </page>
+                  <page string="HRA Receipt">
+                    <field name="hra_line_ids">
+                        <tree string="Receipt" editable="bottom">
+                        <field name="reference"/>
+                        <field name="date"/>
+                        <field name="type" required='1'/>
+                        <!-- <field name="fin_year_id" required='1'/> -->
+          	            <field name="amount" required='1'/>
+          	            </tree>
+                  	  </field>   
+                  </page>
+                  <page string="Other Source Income">
+                    <field name="other_income_ids">
+                        <tree string="Other Source Income" editable="bottom">
+                        <field name="income_source"/>
+                        <field name="reference"/>
+                        <field name="date"/>
+
+          	            <field name="amount" required='1'/>
+          	            </tree>
+                  	  </field>   
+                  </page>
+                 <page string="Other Information">
+                     <group string="Previous Employment">
+                       <group>
+                        <field name="gross_income_previous"/>
+                        <field name="professional_tax_previous"/>
+                       </group>
+                       <group>
+                        <field name="ded_previous_emp"/>
+                        <field name="income_tax_paid"/>
+                        </group>
+                     </group>
+                    <group string="YTM Perks &amp; Recovery">
+                       <group>
+                        <field name="car_perks"/>
+                        <field name="lease_perks"/>
+                        <field name="hard_furnishing_perks"/>
+                        <field name="other_perks"/>
+                        <field name="entertainment_allowance"/>
+                       </group>
+                       <group>
+                        <field name="lease_exemption"/>
+                        <field name="furniture_rent_recovery"/>
+                        <field name="actual_lease_rent_paid"/>
+                        <field name="furnishing_allowance"/>
+                        <field name="conveyance_recovery"/>
+                        </group>
+                     </group>
+                     <group string="Other">
+			<group>
+				<field name="medical_exp_reimbursement"/>
+				<field name="preconstruction_interest" invisible='1'/>
+				<field name="prof_updation_exempt"/>
+				<field name="house_income_sl"/>
+			</group>
+			<group>
+				<field name="prp_amount"/>
+				<field name="uniform_amount"/>
+				<field name="property_type" invisible='1'/>
+				<field name="uniform_fitment_exempt"/>
+			</group> 
+                      </group>  
+                  </page>
+                </notebook>
+              </sheet>
+            </form>
+		</field>
+        </record>
+        <record id="view_employee_saving_tree" model="ir.ui.view">
+            <field name="name">employee.saving.tree</field>
+            <field name="model">employee.saving</field>
+            <field name="arch" type="xml">
+            <tree>
+        	    <field name="employee_id"/>
+              	<field name="proposed_amount"/>
+              	<field name="bill_amount"/>
+                <field name="hra_receipt_amount"/>
+                <field name="other_income_amount"/>
+              	<field name="company_id"/>
+            </tree>
+		</field>
+        </record>
+        <record id="view_employee_saving_filter" model="ir.ui.view">
+            <field name="name">employee.saving.filter</field>
+            <field name="model">employee.saving</field>
+            <field name="arch" type="xml">
+                <search string="Employee Saving">
+                    <field name="employee_id" string="Employees"/> 
+                    <group expand="0" string="Group By">
+                        <filter string="Employee" icon="terp-personal" domain="[]" context="{'group_by':'employee_id'}"/>
+                        <filter string="Zone" icon="terp-personal+" domain="[]" context="{'group_by':'company_id'}"/>
+                        <filter string="Month" icon="terp-personal+" domain="[]" context="{'group_by':'date'}"/>
+                    </group>                   
+                </search>
+             </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="employee_saving">
+            <field name="name">Employee Saving Details</field>
+            <field name="res_model">employee.saving</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem
+            name="Tax &amp; Saving Details"
+            parent="hr_payroll.menu_hr_payroll_root"
+            id="menu_employee_saving" action="employee_saving" sequence="35"/>
+            
+       <!-- saving Line Tree -->
+            
+        <record id="view_saving_line_tree" model="ir.ui.view">
+            <field name="name">saving.line.tree</field>
+            <field name="model">saving.line</field>
+            <field name="arch" type="xml">
+            <tree>
+            	    <field name="salary_rule_id" required='1'/>
+                    <field name="type" required='1'/>
+		    <field name="prop_type"/>	
+                    <field name="saving_no"/>
+                    <!-- <field name="fin_year_id" required='1'/> -->
+      	            <field name="amount" required='1'/>  
+            </tree>
+		</field>
+        </record>
+        <!-- Medical Receipt Line Tree -->
+            
+        <record id="view_medical_bill_tree" model="ir.ui.view">
+            <field name="name">medical.bill.line.tree</field>
+            <field name="model">medical.bill.line</field>
+            <field name="arch" type="xml">
+            <tree>
+                    <field name="name"/>
+                    <field name="reference"/>
+                    <!-- <field name="fin_year_id" required='1'/> -->
+      	            <field name="amount" required='1'/>  
+            </tree>
+		</field>
+        </record>
+        <!-- HRA Receipt Line Tree -->
+            
+        <record id="view_hra_receipt_tree" model="ir.ui.view">
+            <field name="name">hra.receipt.line.tree</field>
+            <field name="model">hra.receipt.line</field>
+            <field name="arch" type="xml">
+            <tree>
+                    <field name="name"/>
+                    <field name="hra_receipt_id"/>
+                    <field name="date"/>
+                    <!-- <field name="fin_year_id" required='1'/> -->
+      	            <field name="amount" required='1'/>  
+            </tree>
+		</field>
+        </record>
+            
+        
+</data>
+</openerp>
+        
